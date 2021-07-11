@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const spaceSchema = new Schema(
 	{
+		spaceName: String,
 		spaceType: String,
 		imageUrlspace: String,
 		services: [

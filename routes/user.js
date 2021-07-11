@@ -1,5 +1,4 @@
 const express = require('express');
-const { UnsupportedMediaType } = require('http-errors');
 const mongoose = require('mongoose');
 
 const router = express.Router();

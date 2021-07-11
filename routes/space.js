@@ -26,7 +26,7 @@ const Space = require('../models/Space');
 router.post('/new', async (req, res) => {
 	const { spaceName, imageUrlspace, city, owner } = req.body;
 	try {
-		const newUser = await Space.create({
+		const newSpace = await Space.create({
 			spaceName: req.body.spaceName,
 			imageUrlSpace: req.body.imageUrlspace,
 			city: req.body.city,
