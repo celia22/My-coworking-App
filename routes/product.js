@@ -3,37 +3,18 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
-const Space = require('../models/Space');
-
-// tested OK
-// router.post('/new', (req, res) => {
-// 	const { spaceName, imageUrlspace, city, owner } = req.body;
-// 	Space.create({
-// 		spaceName: req.body.spaceName,
-// 		imageUrlSpace: req.body.imageUrlspace,
-// 		city: req.body.city,
-// 		owner: req.body.owner,
-// 		//owner: req.user._id, // <== !!!
-// 	})
-// 		.then(response => {
-// 			res.json(response);
-// 		})
-// 		.catch(err => {
-// 			res.json(err);
-// 		});
-// });
+const Product = require('../models/Product');
 
 router.post('/new', async (req, res) => {
-	const { spaceName, imageUrlSpace, city, owner } = req.body;
+	const { spaceName, imageUrlspace, city, owner } = req.body;
 	try {
-		const newSpace = await Space.create({
-			spaceName,
-			imageUrlSpace,
-			city,
-			owner,
-			//owner: req.user._id, // <== !!!
+		const newProduct = await Product.create({
+			spaceName: req.body.spaceName,
+			imageUrlProduct: req.body.imageUrlProduct,
+			price: req.body.city,
+			description: req.body.owner,
 		});
-		res.json(newSpace);
+		res.json(newProduct);
 	} catch (err) {
 		res.json(err);
 	}
@@ -42,8 +23,8 @@ router.post('/new', async (req, res) => {
 //tested OK
 router.get('/all', async (req, res) => {
 	try {
-		const space = await Space.find();
-		res.json(space);
+		const product = await Product.find();
+		res.json(product);
 	} catch (err) {
 		res.json(err);
 	}
@@ -56,8 +37,8 @@ router.get('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		const space = await Space.findById(req.params.id);
-		res.status(200).json(space);
+		const product = await Product.findById(req.params.id);
+		res.status(200).json(product);
 	} catch (err) {
 		res.json(err);
 	}
@@ -70,7 +51,7 @@ router.put('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		await Space.findByIdAndUpdate(req.params.id, req.body);
+		await Product.findByIdAndUpdate(req.params.id, req.body);
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
@@ -86,7 +67,7 @@ router.delete('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		await Space.findByIdAndRemove(req.params.id, req.body);
+		await Product.findByIdAndRemove(req.params.id, req.body);
 		res.json({
 			message: `Space with ${req.params.id} is removed successfully.`,
 		});

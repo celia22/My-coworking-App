@@ -9,12 +9,11 @@ const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const createError = require('http-errors');
 
-require('dotenv').config();
-
 const authRouter = require('./routes/auth');
 const demoRouter = require('./routes/demo');
 const spaceRouter = require('./routes/space');
 const userRouter = require('./routes/user');
+const productRouter = require('./routes/product');
 
 async function setupApp() {
 	const app = express();
@@ -36,7 +35,7 @@ async function setupApp() {
 				mongoUrl: process.env.MONGODB_URI,
 				ttl: 24 * 60 * 60,
 			}),
-			secret: process.env.SECRET_SESSION, // should be inside .env
+			secret: process.env.SECRET_SESSION,
 			resave: true,
 			saveUninitialized: true,
 			cookie: {
@@ -49,6 +48,7 @@ async function setupApp() {
 	app.use('/protected', demoRouter);
 	app.use('/space', spaceRouter);
 	app.use('/user', userRouter);
+	app.use('/product', productRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {

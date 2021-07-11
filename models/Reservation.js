@@ -4,9 +4,9 @@ const { Schema } = mongoose;
 
 const reservationSchema = new Schema(
 	{
-		coworking: {
+		spaceName: {
 			type: Schema.Types.ObjectId,
-			ref: 'Coworking',
+			ref: 'Space',
 		},
 		products: [
 			{
