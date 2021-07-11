@@ -1,0 +1,30 @@
+const mongoose = require('mongoose');
+
+const { Schema, model } = mongoose;
+
+const spaceSchema = new Schema(
+	{
+		spaceType: String,
+		imageUrlspace: String,
+		services: [
+			{
+				product: {
+					type: Schema.Types.ObjectId,
+				},
+				amount: {
+					type: Number,
+					default: 1,
+				},
+			},
+		],
+		price: Number,
+		// owner: { type: Schema.Types.ObjectId, ref: "User" },
+	},
+	{
+		timestamps: true,
+	}
+);
+
+const Space = model('Space', spaceSchema);
+
+module.exports = Space;

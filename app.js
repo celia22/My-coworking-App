@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -11,6 +13,9 @@ require('dotenv').config();
 
 const authRouter = require('./routes/auth');
 const demoRouter = require('./routes/demo');
+const homeRouter = require('./routes/home');
+const spaceRouter = require('./routes/space');
+const userRouter = require('./routes/user');
 
 async function setupApp() {
 	const app = express();
@@ -43,6 +48,9 @@ async function setupApp() {
 
 	app.use('/', authRouter);
 	app.use('/protected', demoRouter);
+	app.use('/', homeRouter);
+	app.use('/space', spaceRouter);
+	app.use('/user', userRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {
