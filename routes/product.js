@@ -14,9 +14,7 @@ router.post('/new', async (req, res) => {
 			price: req.body.city,
 			description: req.body.owner,
 		});
-		await (response => {
-			res.json(response);
-		});
+		res.json(newProduct);
 	} catch (err) {
 		res.json(err);
 	}
@@ -25,10 +23,8 @@ router.post('/new', async (req, res) => {
 //tested OK
 router.get('/all', async (req, res) => {
 	try {
-		Product.find();
-		await (allItems => {
-			res.json(allItems);
-		});
+		const product = await Product.find();
+		res.json(product);
 	} catch (err) {
 		res.json(err);
 	}
@@ -41,10 +37,8 @@ router.get('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Product.findById(req.params.id);
-		await (item => {
-			res.status(200).json(item);
-		});
+		const product = await Product.findById(req.params.id);
+		res.status(200).json(product);
 	} catch (err) {
 		res.json(err);
 	}
@@ -57,11 +51,9 @@ router.put('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Product.findByIdAndUpdate(req.params.id, req.body);
-		await (() => {
-			res.json({
-				message: `Space with ${req.params.id} is updated successfully.`,
-			});
+		await Product.findByIdAndUpdate(req.params.id, req.body);
+		res.json({
+			message: `Space with ${req.params.id} is updated successfully.`,
 		});
 	} catch (err) {
 		res.json(err);
@@ -75,11 +67,9 @@ router.delete('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Product.findByIdAndRemove(req.params.id, req.body);
-		await (() => {
-			res.json({
-				message: `Space with ${req.params.id} is removed successfully.`,
-			});
+		await Product.findByIdAndRemove(req.params.id, req.body);
+		res.json({
+			message: `Space with ${req.params.id} is removed successfully.`,
 		});
 	} catch (err) {
 		res.json(err);

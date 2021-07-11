@@ -24,18 +24,16 @@ const Space = require('../models/Space');
 // });
 
 router.post('/new', async (req, res) => {
-	const { spaceName, imageUrlspace, city, owner } = req.body;
+	const { spaceName, imageUrlSpace, city, owner } = req.body;
 	try {
 		const newSpace = await Space.create({
-			spaceName: req.body.spaceName,
-			imageUrlSpace: req.body.imageUrlspace,
-			city: req.body.city,
-			owner: req.body.owner,
+			spaceName,
+			imageUrlSpace,
+			city,
+			owner,
 			//owner: req.user._id, // <== !!!
 		});
-		await (response => {
-			res.json(response);
-		});
+		res.json(newSpace);
 	} catch (err) {
 		res.json(err);
 	}
@@ -44,10 +42,8 @@ router.post('/new', async (req, res) => {
 //tested OK
 router.get('/all', async (req, res) => {
 	try {
-		Space.find();
-		await (allItems => {
-			res.json(allItems);
-		});
+		const space = await Space.find();
+		res.json(space);
 	} catch (err) {
 		res.json(err);
 	}
@@ -60,10 +56,8 @@ router.get('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Space.findById(req.params.id);
-		await (item => {
-			res.status(200).json(item);
-		});
+		const space = await Space.findById(req.params.id);
+		res.status(200).json(space);
 	} catch (err) {
 		res.json(err);
 	}
@@ -76,11 +70,9 @@ router.put('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Space.findByIdAndUpdate(req.params.id, req.body);
-		await (() => {
-			res.json({
-				message: `Space with ${req.params.id} is updated successfully.`,
-			});
+		await Space.findByIdAndUpdate(req.params.id, req.body);
+		res.json({
+			message: `Space with ${req.params.id} is updated successfully.`,
 		});
 	} catch (err) {
 		res.json(err);
@@ -94,11 +86,9 @@ router.delete('/:id', async (req, res) => {
 		return;
 	}
 	try {
-		Space.findByIdAndRemove(req.params.id, req.body);
-		await (() => {
-			res.json({
-				message: `Space with ${req.params.id} is removed successfully.`,
-			});
+		await Space.findByIdAndRemove(req.params.id, req.body);
+		res.json({
+			message: `Space with ${req.params.id} is removed successfully.`,
 		});
 	} catch (err) {
 		res.json(err);
