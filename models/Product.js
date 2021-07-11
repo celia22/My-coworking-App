@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-	coworkingName: {
-		type: Schema.Types.ObjectId,
-		ref: 'Coworking',
-	},
+	// coworkingName: {
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: 'Coworking',
+	// },
 	imageUrlProduct: String,
 	price: Number,
 	description: String,

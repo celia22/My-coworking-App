@@ -1,88 +1,108 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 const router = express.Router();
 
-const Space = require('../models/space');
+const Space = require('../models/Space');
 
 // tested OK
-router.post('/new', (req, res) => {
+// router.post('/new', (req, res) => {
+// 	const { spaceName, imageUrlspace, city, owner } = req.body;
+// 	Space.create({
+// 		spaceName: req.body.spaceName,
+// 		imageUrlSpace: req.body.imageUrlspace,
+// 		city: req.body.city,
+// 		owner: req.body.owner,
+// 		//owner: req.user._id, // <== !!!
+// 	})
+// 		.then(response => {
+// 			res.json(response);
+// 		})
+// 		.catch(err => {
+// 			res.json(err);
+// 		});
+// });
+
+router.post('/new', async (req, res) => {
 	const { spaceName, imageUrlspace, city, owner } = req.body;
-	Space.create({
-		spaceName: req.body.spaceName,
-		imageUrlSpace: req.body.imageUrlspace,
-		city: req.body.city,
-		owner: req.body.owner,
-		//owner: req.user._id, // <== !!!
-	})
-		.then(response => {
-			res.json(response);
-		})
-		.catch(err => {
-			res.json(err);
+	try {
+		const newUser = await Space.create({
+			spaceName: req.body.spaceName,
+			imageUrlSpace: req.body.imageUrlspace,
+			city: req.body.city,
+			owner: req.body.owner,
+			//owner: req.user._id, // <== !!!
 		});
+		await (response => {
+			res.json(response);
+		});
+	} catch (err) {
+		res.json(err);
+	}
 });
 
 //tested OK
-router.get('/all', (req, res) => {
-	Space.find()
-		.then(allItems => {
+router.get('/all', async (req, res) => {
+	try {
+		Space.find();
+		await (allItems => {
 			res.json(allItems);
-		})
-		.catch(err => {
-			res.json(err);
 		});
+	} catch (err) {
+		res.json(err);
+	}
 });
 
 // testead OK
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;
 	}
-
-	Space.findById(req.params.id)
-		.then(item => {
+	try {
+		Space.findById(req.params.id);
+		await (item => {
 			res.status(200).json(item);
-		})
-		.catch(error => {
-			res.json(error);
 		});
+	} catch (err) {
+		res.json(err);
+	}
 });
 
 //testead OK
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;
 	}
-
-	Space.findByIdAndUpdate(req.params.id, req.body)
-		.then(() => {
+	try {
+		Space.findByIdAndUpdate(req.params.id, req.body);
+		await (() => {
 			res.json({
-				message: `Project with ${req.params.id} is updated successfully.`,
+				message: `Space with ${req.params.id} is updated successfully.`,
 			});
-		})
-		.catch(error => {
-			res.json(error);
 		});
+	} catch (err) {
+		res.json(err);
+	}
 });
 
-//testead OK
-router.delete('/:id', (req, res) => {
+//testead Ok
+router.delete('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;
 	}
-
-	Space.findByIdAndRemove(req.params.id)
-		.then(() => {
+	try {
+		Space.findByIdAndRemove(req.params.id, req.body);
+		await (() => {
 			res.json({
 				message: `Space with ${req.params.id} is removed successfully.`,
 			});
-		})
-		.catch(error => {
-			res.json(error);
 		});
+	} catch (err) {
+		res.json(err);
+	}
 });
 
 module.exports = router;
