@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const spaceSchema = new Schema(
 	{
@@ -25,6 +25,6 @@ const spaceSchema = new Schema(
 	}
 );
 
-const Space = model('Space', spaceSchema);
+const Space = mongoose.model('Space', spaceSchema);
 
 module.exports = Space;

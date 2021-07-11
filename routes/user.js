@@ -5,26 +5,6 @@ const router = express.Router();
 
 const User = require('../models/User');
 
-// testeado
-// router.post('/new', (req, res) => {
-// 	const { username, imageUrluser, city, owner } = req.body;
-// 	User.create({
-// 		firstName: req.body.firstName,
-// 		lastName: req.body.lastName,
-// 		username: req.body.username,
-// 		city: req.body.city,
-// 		password: req.body.password,
-// 		role: req.body.role,
-// 		//owner: req.user._id, // <== !!!
-// 	})
-// 		.then(response => {
-// 			res.json(response);
-// 		})
-// 		.catch(err => {
-// 			res.json(err);
-// 		});
-// });
-
 // testeado OK, pero no creo que haga falta
 router.get('/all', (req, res) => {
 	User.find()

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const reservationSchema = new Schema(
 	{
@@ -30,6 +30,6 @@ const reservationSchema = new Schema(
 	}
 );
 
-const Reservation = model('Reservation', reservationSchema);
+const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;

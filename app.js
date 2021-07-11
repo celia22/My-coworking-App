@@ -13,7 +13,6 @@ require('dotenv').config();
 
 const authRouter = require('./routes/auth');
 const demoRouter = require('./routes/demo');
-const homeRouter = require('./routes/home');
 const spaceRouter = require('./routes/space');
 const userRouter = require('./routes/user');
 
@@ -48,7 +47,6 @@ async function setupApp() {
 
 	app.use('/', authRouter);
 	app.use('/protected', demoRouter);
-	app.use('/', homeRouter);
 	app.use('/space', spaceRouter);
 	app.use('/user', userRouter);
 
