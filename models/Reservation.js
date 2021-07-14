@@ -25,7 +25,11 @@ const reservationSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		dates: Date,
+		status: {
+			type: String,
+			enum: ['confirmed', 'closed'],
+			default: 'confirmed',
+		},
 	},
 	{
 		timestamps: true,

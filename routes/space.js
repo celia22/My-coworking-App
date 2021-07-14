@@ -2,28 +2,35 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = express.Router();
+const { checkIfLoggedIn } = require('../middlewares');
 
 const Space = require('../models/Space');
+const User = require('../models/User');
+const Product = require('../models/Product');
 
-router.post('/new', async (req, res) => {
+router.post('/new', checkIfLoggedIn, async (req, res) => {
 	const { spaceName, spaceType, imageUrlSpace, services, availableSpots, price } = req.body;
+	const userId = req.session.currentUser.id;
 	try {
 		const newSpace = await Space.create({
 			spaceName,
 			spaceType,
 			imageUrlSpace,
 			services,
-			availableSpots,
 			price,
 		});
+		if (newSpace) {
+			await User.findByIdAndUpdate(userId, { role: 'admin' });
+		} else {
+			res.status(500).json();
+		}
 		res.json(newSpace);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-//tested OK
-router.get('/all', async (req, res) => {
+router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const space = await Space.find();
 		res.json(space);
@@ -32,28 +39,21 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-// testead OK
-router.get('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.get('/:id', checkIfLoggedIn, async (req, res) => {
 	try {
-		const space = await Space.findById(req.params.id);
-		res.status(200).json(space);
+		const dbSpace = await Space.findById(req.params.id);
+		const dbProducts = await Product.find({ spaceName: dbSpace });
+		res.status(200).json(dbSpace, dbProducts);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-//testead OK
-router.put('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.put('/:id', checkIfLoggedIn, async (req, res) => {
+	const { id } = req.params;
+	const { spaceName, spaceType, imageUrlSpace, services, availableSpots, price } = req.body;
 	try {
-		await Space.findByIdAndUpdate(req.params.id, req.body);
+		await Space.findByIdAndUpdate(id, spaceName, spaceType, imageUrlSpace, services, availableSpots, price);
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
@@ -62,14 +62,10 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
-//testead Ok
 router.delete('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+	const { id } = req.params;
 	try {
-		await Space.findByIdAndRemove(req.params.id, req.body);
+		await Space.findByIdAndRemove(id, req.body);
 		res.json({
 			message: `Space with ${req.params.id} is removed successfully.`,
 		});

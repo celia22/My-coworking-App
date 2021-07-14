@@ -9,6 +9,7 @@ const productSchema = new Schema({
 	},
 	imageUrlProduct: String,
 	price: Number,
+	amount: Number,
 	description: String,
 });
 

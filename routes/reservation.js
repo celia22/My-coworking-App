@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = express.Router();
+const { checkIfLoggedIn } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 
-router.post('/new', async (req, res) => {
+router.post('/new', checkIfLoggedIn, async (req, res) => {
 	const { spaceName, products, price, user, dates } = req.body;
 	try {
 		const newReservation = await Reservation.create({
@@ -13,7 +14,7 @@ router.post('/new', async (req, res) => {
 			products,
 			price,
 			user,
-			dates,
+			// dates,
 		});
 		res.json(newReservation);
 	} catch (err) {
@@ -22,31 +23,37 @@ router.post('/new', async (req, res) => {
 });
 
 // tested OK
-router.get('/all', async (req, res) => {
+router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
-		const reserv = await Reservation.find();
-		res.json(reserv);
+		const confirmReserv = await Reservation.find({ user: req.session.currentUser.id, status: 'confirmed' })
+			.populate('space')
+			.populate({ path: 'product', populate: [{ path: 'spaceName' }] });
+		const closedReserv = await Reservation.find({ user: req.session.currentUser.id, status: 'closed' })
+			.populate('space')
+			.populate({ path: 'product', populate: [{ path: 'spaceName' }] });
+		res.json(confirmReserv, closedReserv);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
 // testead OK
-router.get('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
+	const { id } = req.params;
+
 	try {
-		const reserv = await Reservation.findById(req.params.id);
-		res.status(200).json(reserv);
+		const dbReserv = await Reservation.findById(id).populate('space').populate('products.product');
+		const prices = [];
+		await dbReserv.products.forEach(item => prices.push(item.product.price * item.amount));
+		const total = await prices.reduce((acc, curr) => acc + curr);
+		res.status(200).json(dbReserv, total);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
 // testead OK
-router.put('/:id', async (req, res) => {
+router.put('/:id', checkIfLoggedIn, async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;
@@ -62,7 +69,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // testead Ok
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkIfLoggedIn, async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;
