@@ -20,10 +20,12 @@ const reservationSchema = new Schema(
 				},
 			},
 		],
+		price: Number,
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
+		dates: Date,
 	},
 	{
 		timestamps: true,

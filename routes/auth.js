@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 
 const { checkEmailAndPasswordNotEmpty } = require('../middlewares');
+const { isAdmin } = require('../middlewares');
 
 const User = require('../models/User');
 
@@ -39,12 +40,14 @@ router.post('/signup', checkEmailAndPasswordNotEmpty, async (req, res, next) => 
 
 router.post('/login', checkEmailAndPasswordNotEmpty, async (req, res, next) => {
 	const { email, password } = res.locals.auth;
+	console.log('role', req.session.currentUser.role);
 	try {
 		const user = await User.findOne({ email });
 		if (!user) {
 			return next(createError(404));
 		}
 		if (bcrypt.compareSync(password, user.hashedPassword)) {
+			console.log('role', req.session.currentUser.role);
 			req.session.currentUser = user;
 			return res.json(user);
 		}

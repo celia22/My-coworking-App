@@ -14,6 +14,7 @@ const demoRouter = require('./routes/demo');
 const spaceRouter = require('./routes/space');
 const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
+const adminRouter = require('./routes/admin');
 
 async function setupApp() {
 	const app = express();
@@ -49,6 +50,7 @@ async function setupApp() {
 	app.use('/space', spaceRouter);
 	app.use('/user', userRouter);
 	app.use('/product', productRouter);
+	app.use('/admin', adminRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {

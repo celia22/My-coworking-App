@@ -5,33 +5,16 @@ const router = express.Router();
 
 const Space = require('../models/Space');
 
-// tested OK
-// router.post('/new', (req, res) => {
-// 	const { spaceName, imageUrlspace, city, owner } = req.body;
-// 	Space.create({
-// 		spaceName: req.body.spaceName,
-// 		imageUrlSpace: req.body.imageUrlspace,
-// 		city: req.body.city,
-// 		owner: req.body.owner,
-// 		//owner: req.user._id, // <== !!!
-// 	})
-// 		.then(response => {
-// 			res.json(response);
-// 		})
-// 		.catch(err => {
-// 			res.json(err);
-// 		});
-// });
-
 router.post('/new', async (req, res) => {
-	const { spaceName, imageUrlSpace, city, owner } = req.body;
+	const { spaceName, spaceType, imageUrlSpace, services, availableSpots, price } = req.body;
 	try {
 		const newSpace = await Space.create({
 			spaceName,
+			spaceType,
 			imageUrlSpace,
-			city,
-			owner,
-			//owner: req.user._id, // <== !!!
+			services,
+			availableSpots,
+			price,
 		});
 		res.json(newSpace);
 	} catch (err) {

@@ -16,6 +16,11 @@ const userSchema = new Schema(
 			match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'],
 		},
 		city: String,
+		role: {
+			type: String,
+			enum: ['admin', 'customer'],
+			default: 'customer',
+		},
 	},
 	{
 		timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

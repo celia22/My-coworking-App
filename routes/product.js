@@ -6,13 +6,13 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 router.post('/new', async (req, res) => {
-	const { spaceName, imageUrlspace, city, owner } = req.body;
+	const { spaceName, imageUrlProduct, price, description } = req.body;
 	try {
 		const newProduct = await Product.create({
-			spaceName: req.body.spaceName,
-			imageUrlProduct: req.body.imageUrlProduct,
-			price: req.body.city,
-			description: req.body.owner,
+			spaceName,
+			imageUrlProduct,
+			price,
+			description,
 		});
 		res.json(newProduct);
 	} catch (err) {

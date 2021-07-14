@@ -5,8 +5,11 @@ const { Schema } = mongoose;
 const spaceSchema = new Schema(
 	{
 		spaceName: String,
-		spaceType: String,
-		imageUrlspace: String,
+		spaceType: {
+			type: String,
+			enum: ['desk', 'room'],
+		},
+		imageUrlSpace: String,
 		services: [
 			{
 				product: {
@@ -18,8 +21,17 @@ const spaceSchema = new Schema(
 				},
 			},
 		],
-		price: Number,
-		// owner: { type: Schema.Types.ObjectId, ref: "User" },
+		Price: [
+			{
+				duration: {
+					type: String,
+					enum: ['daily', 'weekly', 'monthly'],
+				},
+				amount: {
+					type: Number,
+				},
+			},
+		],
 	},
 	{
 		timestamps: true,
