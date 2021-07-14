@@ -26,6 +26,7 @@ const spaceSchema = new Schema(
 				duration: {
 					type: String,
 					enum: ['daily', 'weekly', 'monthly'],
+					default: 'monthly',
 				},
 				price: {
 					type: Number,

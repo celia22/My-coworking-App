@@ -7,14 +7,14 @@ const { checkIfLoggedIn } = require('../middlewares');
 const Reservation = require('../models/Reservation');
 
 router.post('/new', checkIfLoggedIn, async (req, res) => {
-	const { spaceName, products, price, user, dates } = req.body;
+	const { spaceName, product, total, user, status } = req.body;
 	try {
 		const newReservation = await Reservation.create({
 			spaceName,
-			products,
-			price,
+			product,
+			total,
 			user,
-			// dates,
+			status,
 		});
 		res.json(newReservation);
 	} catch (err) {
@@ -43,7 +43,7 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 		const dbReserv = await Reservation.findById(id).populate('space').populate('products.product');
 		const prices = [];
 		await dbReserv.products.forEach(item => prices.push(item.product.price * item.amount));
-		const total = await prices.reduce((acc, curr) => acc + curr);
+		const total = await prices.reduce((acc, curr) => acc + curr); // esto va al front ?¿?¿?¿?¿?
 		res.status(200).json(dbReserv, total);
 	} catch (err) {
 		res.json(err);
@@ -51,12 +51,9 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 });
 
 router.put('/:id', checkIfLoggedIn, async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+	const { spaceName, product, total, user, status } = req.body;
 	try {
-		await Reservation.findByIdAndUpdate(req.params.id, req.body);
+		await Reservation.findByIdAndUpdate(req.params.id, spaceName, product, total, user, status);
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});

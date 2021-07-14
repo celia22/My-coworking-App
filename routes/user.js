@@ -3,13 +3,12 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
-const { isAdmin } = require('../middlewares');
 
 const User = require('../models/User');
 const Space = require('../models/Space');
 const Product = require('../models/Product');
 
-router.get('/main', isAdmin, checkIfLoggedIn, async (req, res) => {
+router.get('/main', checkIfLoggedIn, async (req, res) => {
 	try {
 		const dbUser = await User.findById(req.session.currentUser.id);
 		const dbSpaces = await Space.find();
@@ -23,7 +22,6 @@ router.get('/main', isAdmin, checkIfLoggedIn, async (req, res) => {
 router.get('/all', async (req, res) => {
 	try {
 		const user = await User.find();
-		console.log('Users', user);
 		res.json(user);
 	} catch (err) {
 		res.json(err);
@@ -31,44 +29,33 @@ router.get('/all', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
-
+	const { id } = req.params;
 	try {
-		const user = await User.findById(req.params.id);
+		const user = await User.findById(id);
 		res.status(200).json(user);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-router.put('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
-
+router.put('/:id/edit', async (req, res) => {
+	const { id } = req.params;
+	const { email, password, firstName, lastName, city } = req.body;
 	try {
-		await User.findByIdAndUpdate(req.params.id, req.body);
+		await User.findByIdAndUpdate(id, email, password, firstName, lastName, city);
 		res.json({
-			message: `User with ${req.params.id} is updated successfully.`,
+			message: `User with ${id} is updated successfully.`,
 		});
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-router.delete('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
-
+router.delete('/:id/delete', async (req, res) => {
+	const { id } = req.params;
 	try {
-		await User.findByIdAndRemove(req.params.id, req.body);
-		res.json({ message: `User with ${req.params.id} is removed successfully.` });
+		await User.findByIdAndRemove(id, req.body);
+		res.json({ message: `User with ${id} is removed successfully.` });
 	} catch (err) {
 		res.json(err);
 	}

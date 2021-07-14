@@ -10,10 +10,10 @@ const cors = require('cors');
 const createError = require('http-errors');
 
 const authRouter = require('./routes/auth');
-const demoRouter = require('./routes/demo');
 const spaceRouter = require('./routes/space');
 const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
+const reservationRouter = require('./routes/reservation');
 const adminRouter = require('./routes/admin');
 
 async function setupApp() {
@@ -46,11 +46,11 @@ async function setupApp() {
 	);
 
 	app.use('/', authRouter);
-	app.use('/protected', demoRouter);
 	app.use('/space', spaceRouter);
 	app.use('/user', userRouter);
 	app.use('/product', productRouter);
 	app.use('/admin', adminRouter);
+	app.use('/reservation', reservationRouter);
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {

@@ -6,12 +6,13 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 router.post('/new', async (req, res) => {
-	const { spaceName, imageUrlProduct, price, description } = req.body;
+	const { spaceName, imageUrlProduct, price, amount, description } = req.body;
 	try {
 		const newProduct = await Product.create({
 			spaceName,
 			imageUrlProduct,
 			price,
+			amount,
 			description,
 		});
 		res.json(newProduct);
@@ -39,9 +40,9 @@ router.get('/:id/details', async (req, res) => {
 });
 
 router.put('/:id/update', async (req, res) => {
-	const { spaceName, imageUrlProduct, price, description } = req.body;
+	const { spaceName, imageUrlProduct, price, amount, description } = req.body;
 	try {
-		await Product.findByIdAndUpdate(req.params.id, spaceName, imageUrlProduct, price, description);
+		await Product.findByIdAndUpdate(req.params.id, spaceName, imageUrlProduct, price, amount, description);
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});

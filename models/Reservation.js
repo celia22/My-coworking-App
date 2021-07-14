@@ -8,19 +8,11 @@ const reservationSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'Space',
 		},
-		products: [
-			{
-				product: {
-					type: Schema.Types.ObjectId,
-					ref: 'Product',
-				},
-				amount: {
-					type: Number,
-					default: 1,
-				},
-			},
-		],
-		price: Number,
+		product: {
+			type: Schema.Types.ObjectId,
+			ref: 'Product',
+		},
+		total: Number,
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
