@@ -30,7 +30,6 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-// testeado OK
 router.get('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
@@ -45,7 +44,6 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-//testeado OK
 router.put('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
@@ -62,7 +60,6 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
-// tested OK
 router.delete('/:id', async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });

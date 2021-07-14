@@ -8,6 +8,7 @@ const Space = require('../models/Space');
 const User = require('../models/User');
 const Product = require('../models/Product');
 
+// tested OK
 router.post('/new', checkIfLoggedIn, async (req, res) => {
 	const { spaceName, spaceType, imageUrlSpace, services, availableSpots, price } = req.body;
 	const userId = req.session.currentUser.id;

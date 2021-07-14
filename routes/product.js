@@ -20,7 +20,6 @@ router.post('/new', async (req, res) => {
 	}
 });
 
-//tested OK
 router.get('/all', async (req, res) => {
 	try {
 		const product = await Product.find();
@@ -30,12 +29,7 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-// testead OK
-router.get('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.get('/:id/details', async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		res.status(200).json(product);
@@ -44,28 +38,19 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-//testead OK
-router.put('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.put('/:id/update', async (req, res) => {
+	const { spaceName, imageUrlProduct, price, description } = req.body;
 	try {
-		await Product.findByIdAndUpdate(req.params.id, req.body);
+		await Product.findByIdAndUpdate(req.params.id, spaceName, imageUrlProduct, price, description);
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
 	} catch (err) {
-		res.json(err);
+		res.status(500).json(err);
 	}
 });
 
-//testead Ok
-router.delete('/:id', async (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
-	}
+router.delete('/:id/delete', async (req, res) => {
 	try {
 		await Product.findByIdAndRemove(req.params.id, req.body);
 		res.json({

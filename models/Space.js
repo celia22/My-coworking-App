@@ -21,13 +21,13 @@ const spaceSchema = new Schema(
 				},
 			},
 		],
-		Price: [
+		price: [
 			{
 				duration: {
 					type: String,
 					enum: ['daily', 'weekly', 'monthly'],
 				},
-				amount: {
+				price: {
 					type: Number,
 				},
 			},

@@ -22,7 +22,6 @@ router.post('/new', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-// tested OK
 router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const confirmReserv = await Reservation.find({ user: req.session.currentUser.id, status: 'confirmed' })
@@ -37,7 +36,6 @@ router.get('/all', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-// testead OK
 router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
 
@@ -52,7 +50,6 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-// testead OK
 router.put('/:id', checkIfLoggedIn, async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
@@ -68,7 +65,6 @@ router.put('/:id', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-// testead Ok
 router.delete('/:id', checkIfLoggedIn, async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
