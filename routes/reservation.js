@@ -16,13 +16,15 @@ router.post('/new', checkIfLoggedIn, async (req, res) => {
 			user,
 			status,
 		});
-		res.json(newReservation);
+		res.status(200).json(newReservation);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
 router.get('/all', checkIfLoggedIn, async (req, res) => {
+	// separar status de confirmed y closed en el front, menos llamada a bbdd, + rapido
+	// dejar un reservation find x user
 	try {
 		const confirmReserv = await Reservation.find({ user: req.session.currentUser.id, status: 'confirmed' })
 			.populate('space')
@@ -30,18 +32,19 @@ router.get('/all', checkIfLoggedIn, async (req, res) => {
 		const closedReserv = await Reservation.find({ user: req.session.currentUser.id, status: 'closed' })
 			.populate('space')
 			.populate({ path: 'product', populate: [{ path: 'spaceName' }] });
-		res.json(confirmReserv, closedReserv);
+		res.status(200).json(confirmReserv, closedReserv);
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
+router.get('/:id', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
 
 	try {
 		const dbReserv = await Reservation.findById(id).populate('space').populate('products.product');
 		const prices = [];
+		// next line para front as well, hacer calculo e component did mount
 		await dbReserv.products.forEach(item => prices.push(item.product.price * item.amount));
 		const total = await prices.reduce((acc, curr) => acc + curr); // esto va al front ?¿?¿?¿?¿?
 		res.status(200).json(dbReserv, total);
@@ -50,10 +53,11 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.put('/:id', checkIfLoggedIn, async (req, res) => {
+router.put('/:id/edit', checkIfLoggedIn, async (req, res) => {
+	const { id } = req.params;
 	const { spaceName, product, total, user, status } = req.body;
 	try {
-		await Reservation.findByIdAndUpdate(req.params.id, spaceName, product, total, user, status);
+		await Reservation.findByIdAndUpdate(id, { spaceName, product, total, user, status });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});

@@ -2,7 +2,6 @@ const express = require('express');
 // const mongoose = require('mongoose');
 
 const router = express.Router();
-const { isAdmin } = require('../middlewares');
 
 // const User = require('../models/User');
 const Space = require('../models/Space');

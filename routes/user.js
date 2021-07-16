@@ -1,19 +1,23 @@
 const express = require('express');
-const mongoose = require('mongoose');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
 
 const User = require('../models/User');
-const Space = require('../models/Space');
-const Product = require('../models/Product');
 
 router.get('/main', checkIfLoggedIn, async (req, res) => {
 	try {
 		const dbUser = await User.findById(req.session.currentUser.id);
-		const dbSpaces = await Space.find();
-		const dbProducts = await Product.find();
-		res.json({ dbUser, dbSpaces, dbProducts });
+		res.json({ dbUser });
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+router.get('/menu', checkIfLoggedIn, async (req, res) => {
+	try {
+		const dbUser = await User.findById(req.session.currentUser.id);
+		res.json({ dbUser });
 	} catch (err) {
 		res.json(err);
 	}
@@ -42,7 +46,7 @@ router.put('/:id/edit', async (req, res) => {
 	const { id } = req.params;
 	const { email, password, firstName, lastName, city } = req.body;
 	try {
-		await User.findByIdAndUpdate(id, email, password, firstName, lastName, city);
+		await User.findByIdAndUpdate(id, { email, password, firstName, lastName, city });
 		res.json({
 			message: `User with ${id} is updated successfully.`,
 		});

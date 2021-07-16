@@ -9,7 +9,7 @@ const reservationSchema = new Schema(
 			ref: 'Space',
 		},
 		product: {
-			type: Schema.Types.ObjectId,
+			type: [Schema.Types.ObjectId],
 			ref: 'Product',
 		},
 		total: Number,

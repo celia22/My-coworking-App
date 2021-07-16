@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -39,10 +38,11 @@ router.get('/:id/details', async (req, res) => {
 	}
 });
 
-router.put('/:id/update', async (req, res) => {
+router.put('/:id/edit', async (req, res) => {
+	const { id } = req.params;
 	const { spaceName, imageUrlProduct, price, amount, description } = req.body;
 	try {
-		await Product.findByIdAndUpdate(req.params.id, spaceName, imageUrlProduct, price, amount, description);
+		await Product.findByIdAndUpdate(id, { spaceName, imageUrlProduct, price, amount, description });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
