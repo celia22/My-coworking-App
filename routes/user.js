@@ -5,7 +5,7 @@ const { checkIfLoggedIn } = require('../middlewares');
 
 const User = require('../models/User');
 
-router.get('/main', checkIfLoggedIn, async (req, res) => {
+router.get('/:id/main', checkIfLoggedIn, async (req, res) => {
 	try {
 		const dbUser = await User.findById(req.session.currentUser.id);
 		res.json({ dbUser });
@@ -14,7 +14,7 @@ router.get('/main', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/menu', checkIfLoggedIn, async (req, res) => {
+router.get('/:id/menu', checkIfLoggedIn, async (req, res) => {
 	try {
 		const dbUser = await User.findById(req.session.currentUser.id);
 		res.json({ dbUser });
@@ -32,7 +32,7 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id/details', async (req, res) => {
 	const { id } = req.params;
 	try {
 		const user = await User.findById(id);
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-router.put('/:id/edit', async (req, res) => {
+router.put('/:id/update-profile', async (req, res) => {
 	const { id } = req.params;
 	const { email, password, firstName, lastName, city } = req.body;
 	try {

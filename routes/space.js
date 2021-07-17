@@ -8,15 +8,17 @@ const User = require('../models/User');
 
 // tested OK
 router.post('/new', checkIfLoggedIn, async (req, res) => {
-	const { spaceName, spaceType, imageUrlSpace, services, price } = req.body;
+	const { spaceName, spaceType, imageUrlSpace, products, daily, weekly, monthly } = req.body;
 	const userId = req.session.currentUser.id;
 	try {
 		const newSpace = await Space.create({
 			spaceName,
 			spaceType,
 			imageUrlSpace,
-			services,
-			price,
+			products,
+			daily,
+			weekly,
+			monthly,
 		});
 		if (newSpace) {
 			await User.findByIdAndUpdate(userId, { role: 'admin' });
@@ -49,9 +51,9 @@ router.get('/:id', checkIfLoggedIn, async (req, res) => {
 
 router.put('/:id/edit', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
-	const { spaceName, spaceType, imageUrlSpace, services, price } = req.body;
+	const { spaceName, spaceType, imageUrlSpace, services, daily, weekly, monthly } = req.body;
 	try {
-		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imageUrlSpace, services, price });
+		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imageUrlSpace, services, daily, weekly, monthly });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
