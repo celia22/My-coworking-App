@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const Product = require('../models/Product');
+const Space = require('../models/Space');
 
 router.post('/new', async (req, res) => {
 	const { spaceName, imageUrlProduct, price, amount, description } = req.body;
@@ -20,9 +21,10 @@ router.post('/new', async (req, res) => {
 	}
 });
 
-router.get('/all', async (req, res) => {
+router.get('/:id/all', async (req, res) => {
 	try {
-		const product = await Product.find();
+		const dbSpace = await Space.findById(req.params.id);
+		const product = await Product.find({ spaceName: dbSpace });
 		res.json(product);
 	} catch (err) {
 		res.json(err);
@@ -40,9 +42,9 @@ router.get('/:id/details', async (req, res) => {
 
 router.put('/:id/edit', async (req, res) => {
 	const { id } = req.params;
-	const { spaceName, imageUrlProduct, price, amount, description } = req.body;
+	const { spaceName, price, amount, description } = req.body;
 	try {
-		await Product.findByIdAndUpdate(id, { spaceName, imageUrlProduct, price, amount, description });
+		await Product.findByIdAndUpdate(id, { spaceName, price, amount, description });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});

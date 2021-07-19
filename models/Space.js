@@ -10,29 +10,12 @@ const spaceSchema = new Schema(
 			enum: ['desk', 'room'],
 		},
 		imageUrlSpace: String,
-		// services: [
-		// 	{
-		// 		product: {
-		// 			type: Schema.Types.ObjectId,
-		// 		},
-		// 	},
-		// ],
-		products: {
-			coffeeAndPastries: Number,
-			extraLargeDesktop: Number,
-			extraDesktop: Number,
-			fruit: Number,
-			extraScreen: Number,
-			wifi: Number,
-			ergonomicChair: Number,
-			appleKeyboard: Number,
-			appleMagicMouse: Number,
-		},
 		price: {
 			daily: Number,
 			weekly: Number,
 			monthly: Number,
 		},
+		city: String,
 	},
 	{
 		timestamps: true,

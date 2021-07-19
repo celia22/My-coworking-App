@@ -6,7 +6,7 @@ const { checkIfLoggedIn } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 
-router.post('/new', checkIfLoggedIn, async (req, res) => {
+router.post('/:id/new', checkIfLoggedIn, async (req, res) => {
 	const { spaceName, product, total, user, status } = req.body;
 	try {
 		const newReservation = await Reservation.create({
@@ -22,7 +22,7 @@ router.post('/new', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/all', checkIfLoggedIn, async (req, res) => {
+router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
 	// separar status de confirmed y closed en el front, menos llamada a bbdd, + rapido
 	// dejar un reservation find x user
 	try {
@@ -70,7 +70,7 @@ router.put('/:id/edit', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.delete('/:id', checkIfLoggedIn, async (req, res) => {
+router.delete('/:id/delete', checkIfLoggedIn, async (req, res) => {
 	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
 		res.status(400).json({ message: 'Specified id is not valid' });
 		return;

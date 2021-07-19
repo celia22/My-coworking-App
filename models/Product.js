@@ -7,7 +7,6 @@ const productSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'Space',
 	},
-	imageUrlProduct: String,
 	price: Number,
 	amount: Number,
 	description: String,
