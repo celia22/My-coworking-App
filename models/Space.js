@@ -4,18 +4,45 @@ const { Schema } = mongoose;
 
 const spaceSchema = new Schema(
 	{
-		spaceName: String,
+		spaceName: {
+			type: String,
+			required: [true, 'SpaceName is required.'],
+		},
 		spaceType: {
 			type: String,
-			enum: ['desk', 'room'],
+			enum: ['Desk', 'Room'],
+			required: [true, 'SpaceType is required.'],
 		},
-		imageUrlSpace: String,
-		price: {
-			daily: Number,
-			weekly: Number,
-			monthly: Number,
+		imageUrlSpace: {
+			type: String,
+			required: [true, 'Image is required.'],
 		},
-		city: String,
+		product: {
+			type: [Schema.Types.ObjectId],
+			ref: 'Product',
+		},
+		// price: {
+		// 	daily: Number,
+		// 	weekly: Number,
+		// 	monthly: Number,
+		// },
+		daily: {
+			type: Number,
+			required: [true, 'Daily price is required.'],
+		},
+		weekly: {
+			type: Number,
+			required: [true, 'Weekly price is required.'],
+		},
+		monthly: {
+			type: Number,
+			required: [true, 'Monthly price is required.'],
+		},
+
+		city: {
+			type: String,
+			required: [true, 'City is required.'],
+		},
 	},
 	{
 		timestamps: true,

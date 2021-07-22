@@ -20,7 +20,7 @@ const checkEmailAndPasswordNotEmpty = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-	if (req.session.currentUser && req.session.currentUser.role === 'admin') {
+	if (req.session.currentUser.role === 'admin') {
 		return next();
 	}
 };

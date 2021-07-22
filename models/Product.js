@@ -8,7 +8,6 @@ const productSchema = new Schema({
 		ref: 'Space',
 	},
 	price: Number,
-	amount: Number,
 	description: String,
 });
 

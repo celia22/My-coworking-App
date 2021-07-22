@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 
 const { checkEmailAndPasswordNotEmpty } = require('../middlewares');
+const { isAdmin } = require('../middlewares');
 
 const User = require('../models/User');
 
