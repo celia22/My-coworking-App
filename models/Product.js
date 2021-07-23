@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-	spaceName: {
-		type: Schema.Types.ObjectId,
-		ref: 'Space',
-	},
 	price: Number,
 	description: String,
 });

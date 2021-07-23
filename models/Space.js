@@ -17,27 +17,23 @@ const spaceSchema = new Schema(
 			type: String,
 			required: [true, 'Image is required.'],
 		},
-		product: {
-			type: [Schema.Types.ObjectId],
-			ref: 'Product',
+		price: {
+			daily: Number,
+			weekly: Number,
+			monthly: Number,
 		},
-		// price: {
-		// 	daily: Number,
-		// 	weekly: Number,
-		// 	monthly: Number,
+		// daily: {
+		// 	type: Number,
+		// 	required: [true, 'Daily price is required.'],
 		// },
-		daily: {
-			type: Number,
-			required: [true, 'Daily price is required.'],
-		},
-		weekly: {
-			type: Number,
-			required: [true, 'Weekly price is required.'],
-		},
-		monthly: {
-			type: Number,
-			required: [true, 'Monthly price is required.'],
-		},
+		// weekly: {
+		// 	type: Number,
+		// 	required: [true, 'Weekly price is required.'],
+		// },
+		// monthly: {
+		// 	type: Number,
+		// 	required: [true, 'Monthly price is required.'],
+		// },
 
 		city: {
 			type: String,

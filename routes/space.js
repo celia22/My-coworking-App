@@ -9,7 +9,13 @@ const Space = require('../models/Space');
 
 // tested OK
 router.post('/new', isAdmin, uploader.array('imageUrlSpace', 4), async (req, res) => {
-	const { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city } = req.body;
+	const {
+		spaceName,
+		spaceType,
+		imageUrlSpace,
+		price: { daily, weekly, monthly },
+		city,
+	} = req.body;
 	console.log(req.body);
 	try {
 		const newSpace = await Space.create({
@@ -17,13 +23,14 @@ router.post('/new', isAdmin, uploader.array('imageUrlSpace', 4), async (req, res
 			spaceType,
 			imageUrlSpace,
 			product,
-			// price: { daily, weekly, monthly },
-			daily,
-			weekly,
-			monthly,
+			price: { daily, weekly, monthly },
+			// daily,
+			// weekly,
+			// monthly,
 			city,
 		});
 		res.status(201).json(newSpace, { secure_url: req.file.path });
+		console.log(req.body);
 	} catch (err) {
 		res.json(err);
 	}
@@ -49,9 +56,9 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 
 router.put('/:id/edit', isAdmin, uploader.array('imageUrlSpace'), isAdmin, async (req, res, next) => {
 	const { id } = req.params;
-	const { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city } = req.body;
+	const { spaceName, spaceType, imageUrlSpace, daily, weekly, monthly, city } = req.body;
 	try {
-		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city });
+		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imageUrlSpace, price: { daily, weekly, monthly }, city });
 		if (!req.file) {
 			next(new Error('No file uploaded!'));
 			return;
