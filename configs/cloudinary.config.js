@@ -14,6 +14,4 @@ const storage = new CloudinaryStorage({
 	folder: 'my-coworking',
 });
 
-const uploadCloud = multer({ storage });
-
-module.exports = uploadCloud;
+module.exports = multer({ storage });
