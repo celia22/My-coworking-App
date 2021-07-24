@@ -20,9 +20,8 @@ router.post('/new', isAdmin, async (req, res) => {
 	}
 });
 
-router.get('/:id/all', async (req, res) => {
+router.get('/all', async (req, res) => {
 	try {
-		const dbSpace = await Space.findById(req.params.id);
 		const product = await Product.find();
 		res.json(product);
 	} catch (err) {

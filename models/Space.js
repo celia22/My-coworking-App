@@ -13,7 +13,7 @@ const spaceSchema = new Schema(
 			enum: ['Desk', 'Room'],
 			required: [true, 'SpaceType is required.'],
 		},
-		imageUrlSpace: {
+		imgUrl: {
 			type: String,
 			required: [true, 'Image is required.'],
 		},
