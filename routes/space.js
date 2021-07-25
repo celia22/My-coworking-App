@@ -8,7 +8,7 @@ const uploader = require('../configs/cloudinary.config');
 const Space = require('../models/Space');
 
 // tested OK
-router.post('/new', isAdmin, uploader.array('imgUrl', 4), async (req, res) => {
+router.post('/new', isAdmin, async (req, res) => {
 	const {
 		spaceName,
 		spaceType,
@@ -25,7 +25,7 @@ router.post('/new', isAdmin, uploader.array('imgUrl', 4), async (req, res) => {
 			price: { daily, weekly, monthly },
 			city,
 		});
-		res.status(201).json(newSpace, { secure_url: req.file.path });
+		res.status(201).json(newSpace);
 		console.log(req.body);
 	} catch (err) {
 		res.json(err);

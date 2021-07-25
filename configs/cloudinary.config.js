@@ -10,8 +10,15 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
 	cloudinary,
-	allowed_formats: ['jpg', 'png'],
-	folder: 'my-coworking',
+	params: {
+		allowed_formats: ['jpg', 'png'],
+		folder: 'react-coworking',
+	},
+	filename: function (req, file, cb) {
+		cb(null, file.originalname);
+	},
 });
 
-module.exports = multer({ storage });
+const uploadCloud = multer({ storage });
+
+module.exports = uploadCloud;
