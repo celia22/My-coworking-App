@@ -15,25 +15,25 @@ const spaceSchema = new Schema(
 		},
 		imageUrlSpace: {
 			type: String,
-			required: [true, 'Image is required.'],
+			// required: [true, 'Image is required.'],
 		},
-		price: {
-			daily: Number,
-			weekly: Number,
-			monthly: Number,
+		// price: {
+		// 	daily: Number,
+		// 	weekly: Number,
+		// 	monthly: Number,
+		// },
+		daily: {
+			type: Number,
+			required: [true, 'Daily price is required.'],
 		},
-		// daily: {
-		// 	type: Number,
-		// 	required: [true, 'Daily price is required.'],
-		// },
-		// weekly: {
-		// 	type: Number,
-		// 	required: [true, 'Weekly price is required.'],
-		// },
-		// monthly: {
-		// 	type: Number,
-		// 	required: [true, 'Monthly price is required.'],
-		// },
+		weekly: {
+			type: Number,
+			required: [true, 'Weekly price is required.'],
+		},
+		monthly: {
+			type: Number,
+			required: [true, 'Monthly price is required.'],
+		},
 
 		city: {
 			type: String,
