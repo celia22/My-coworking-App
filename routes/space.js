@@ -9,20 +9,16 @@ const Space = require('../models/Space');
 
 // tested OK
 router.post('/new', isAdmin, async (req, res) => {
-	const {
-		spaceName,
-		spaceType,
-		imgUrl,
-		price: { daily, weekly, monthly },
-		city,
-	} = req.body;
+	const { spaceName, spaceType, imageUrlSpace, daily, weekly, monthly, city } = req.body;
 	console.log(req.body);
 	try {
 		const newSpace = await Space.create({
 			spaceName,
 			spaceType,
-			imgUrl,
-			price: { daily, weekly, monthly },
+			imageUrlSpace,
+			daily,
+			weekly,
+			monthly,
 			city,
 		});
 		res.status(201).json(newSpace);
@@ -54,7 +50,7 @@ router.put('/:id/edit', isAdmin, uploader.array('imgUrl'), isAdmin, async (req, 
 	const { id } = req.params;
 	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 	try {
-		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imgUrl, price: { daily, weekly, monthly }, city });
+		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imgUrl, daily, weekly, monthly, city });
 		if (!req.file) {
 			next(new Error('No file uploaded!'));
 			return;
