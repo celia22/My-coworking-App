@@ -5,14 +5,13 @@ const router = express.Router();
 const { isAdmin } = require('../middlewares');
 
 const Product = require('../models/Product');
-const Space = require('../models/Space');
 
 router.post('/new', isAdmin, async (req, res) => {
-	const { price, description } = req.body;
+	const { productPrice, productDescription } = req.body;
 	try {
 		const newProduct = await Product.create({
-			price,
-			description,
+			productPrice,
+			productDescription,
 		});
 		res.json(newProduct);
 	} catch (err) {
@@ -40,9 +39,9 @@ router.get('/:id/details', async (req, res) => {
 
 router.put('/:id/edit', isAdmin, async (req, res) => {
 	const { id } = req.params;
-	const { price, description } = req.body;
+	const { productPrice, productDescription } = req.body;
 	try {
-		await Product.findByIdAndUpdate(id, { price, description });
+		await Product.findByIdAndUpdate(id, { productPrice, productDescription });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});

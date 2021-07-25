@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
-	price: Number,
-	description: String,
+	productPrice: Number,
+	productDescription: String,
 });
 
 const Product = mongoose.model('Product', productSchema);

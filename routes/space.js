@@ -10,7 +10,7 @@ const Space = require('../models/Space');
 // tested OK
 router.post('/new', isAdmin, async (req, res) => {
 	const { spaceName, spaceType, imageUrlSpace, daily, weekly, monthly, city } = req.body;
-	console.log(req.body);
+
 	try {
 		const newSpace = await Space.create({
 			spaceName,
@@ -22,7 +22,6 @@ router.post('/new', isAdmin, async (req, res) => {
 			city,
 		});
 		res.status(201).json(newSpace);
-		console.log(req.body);
 	} catch (err) {
 		res.json(err);
 	}
