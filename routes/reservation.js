@@ -25,10 +25,10 @@ router.post('/:id/new', checkIfLoggedIn, async (req, res) => {
 });
 
 router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
-	// separar status de confirmed y closed en el front, menos llamada a bbdd, + rapido
-	// dejar un reservation find x user
+	const { id } = req.params;
 	try {
-		const reservation = await Reservation.find();
+		await User.findById(id);
+		const reservation = await Reservation.find({ user: id });
 		res.json(reservation);
 	} catch (err) {
 		res.json(err);
