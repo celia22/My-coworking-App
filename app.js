@@ -15,7 +15,7 @@ const userRouter = require('./routes/user');
 const productRouter = require('./routes/product');
 const reservationRouter = require('./routes/reservation');
 const adminRouter = require('./routes/admin');
-const uploadFile = require('./routes/upload');
+// const uploadFile = require('./routes/upload');
 
 async function setupApp() {
 	const app = express();
@@ -53,7 +53,8 @@ async function setupApp() {
 	app.use('/product', productRouter);
 	app.use('/admin', adminRouter);
 	app.use('/reservation', reservationRouter);
-	app.use('/upload', uploadFile);
+	// app.use('/upload', uploadFile);
+	app.use('/api', require('./routes/file-upload'));
 
 	// catch 404 and forward to error handler
 	app.use((req, res, next) => {

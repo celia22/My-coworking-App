@@ -2,9 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
+const { isAdmin } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
+const Product = require('../models/Product');
 
 router.post('/:id/new', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
@@ -28,7 +30,16 @@ router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
 	try {
 		await User.findById(id);
-		const reservation = await Reservation.find({ user: id });
+		const reservation = await Reservation.find({ user: id }).populate('product');
+		res.json(reservation);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+router.get('/all', isAdmin, async (req, res) => {
+	try {
+		const reservation = await Reservation.find().populate('product');
 		res.json(reservation);
 	} catch (err) {
 		res.json(err);

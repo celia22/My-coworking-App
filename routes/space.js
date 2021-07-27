@@ -9,13 +9,13 @@ const Space = require('../models/Space');
 
 // tested OK
 router.post('/new', isAdmin, async (req, res) => {
-	const { spaceName, spaceType, imageUrlSpace, daily, weekly, monthly, city } = req.body;
+	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 
 	try {
 		const newSpace = await Space.create({
 			spaceName,
 			spaceType,
-			imageUrlSpace,
+			imgUrl,
 			daily,
 			weekly,
 			monthly,

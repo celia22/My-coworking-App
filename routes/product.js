@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const { isAdmin } = require('../middlewares');
+const { checkIfLoggedIn } = require('../middlewares');
 
 const Product = require('../models/Product');
 
@@ -19,7 +20,7 @@ router.post('/new', isAdmin, async (req, res) => {
 	}
 });
 
-router.get('/all', async (req, res) => {
+router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const product = await Product.find();
 		res.json(product);
@@ -28,7 +29,7 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-router.get('/:id/details', async (req, res) => {
+router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		res.status(200).json(product);

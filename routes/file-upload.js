@@ -2,12 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-// include CLOUDINARY:
 const uploadCloud = require('../configs/cloudinary.config');
 
-router.post('/', uploadCloud.any('img_url'), (req, res, next) => {
+router.post('/upload', uploadCloud.single('imgUrl'), (req, res, next) => {
+	console.log('file is: ', req.file);
 	try {
-		res.json({ img_url: req.file.path });
+		res.json({ secure_url: req.file.path });
 	} catch (err) {
 		res.json(err);
 	}
