@@ -11,8 +11,8 @@ const spaceSchema = new Schema(
 			required: [true, 'SpaceType is required.'],
 		},
 		imgUrl: {
-			type: String,
-			// required: [true, 'Image is required.'],
+			type: [String],
+			required: [true, 'Image is required.'],
 		},
 		daily: { type: Number, required: true },
 		weekly: { type: Number, required: true },
