@@ -8,22 +8,20 @@ const uploader = require('../configs/cloudinary.config');
 const Space = require('../models/Space');
 
 // tested OK
-router.post('/new', isAdmin, uploader.array('imageUrlSpace', 4), async (req, res) => {
-	const { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city } = req.body;
-	console.log(req.body);
+router.post('/new', isAdmin, async (req, res) => {
+	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
+
 	try {
 		const newSpace = await Space.create({
 			spaceName,
 			spaceType,
-			imageUrlSpace,
-			product,
-			// price: { daily, weekly, monthly },
+			imgUrl,
 			daily,
 			weekly,
 			monthly,
 			city,
 		});
-		res.status(201).json(newSpace, { secure_url: req.file.path });
+		res.status(201).json(newSpace);
 	} catch (err) {
 		res.json(err);
 	}
@@ -47,11 +45,11 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.put('/:id/edit', isAdmin, uploader.array('imageUrlSpace'), isAdmin, async (req, res, next) => {
+router.put('/:id/edit', isAdmin, uploader.array('imgUrl'), isAdmin, async (req, res, next) => {
 	const { id } = req.params;
-	const { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city } = req.body;
+	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 	try {
-		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imageUrlSpace, product, daily, weekly, monthly, city });
+		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imgUrl, daily, weekly, monthly, city });
 		if (!req.file) {
 			next(new Error('No file uploaded!'));
 			return;

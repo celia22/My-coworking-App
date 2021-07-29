@@ -4,24 +4,25 @@ const { Schema } = mongoose;
 
 const reservationSchema = new Schema(
 	{
-		spaceName: {
+		space: {
 			type: Schema.Types.ObjectId,
 			ref: 'Space',
 		},
-		product: {
+		cart: {
 			type: [Schema.Types.ObjectId],
 			ref: 'Product',
 		},
-		total: Number,
+		prices: [Number],
+		totalAmount: Number,
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		status: {
-			type: String,
-			enum: ['confirmed', 'closed'],
-			default: 'confirmed',
-		},
+		// status: {
+		// 	type: String,
+		// 	enum: ['confirmed', 'closed'],
+		// 	default: 'confirmed',
+		// },
 	},
 	{
 		timestamps: true,

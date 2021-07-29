@@ -3,16 +3,16 @@ const express = require('express');
 const router = express.Router();
 
 const { isAdmin } = require('../middlewares');
+const { checkIfLoggedIn } = require('../middlewares');
 
 const Product = require('../models/Product');
-const Space = require('../models/Space');
 
 router.post('/new', isAdmin, async (req, res) => {
-	const { price, description } = req.body;
+	const { productPrice, productDescription } = req.body;
 	try {
 		const newProduct = await Product.create({
-			price,
-			description,
+			productPrice,
+			productDescription,
 		});
 		res.json(newProduct);
 	} catch (err) {
@@ -20,9 +20,8 @@ router.post('/new', isAdmin, async (req, res) => {
 	}
 });
 
-router.get('/:id/all', async (req, res) => {
+router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
-		const dbSpace = await Space.findById(req.params.id);
 		const product = await Product.find();
 		res.json(product);
 	} catch (err) {
@@ -30,7 +29,7 @@ router.get('/:id/all', async (req, res) => {
 	}
 });
 
-router.get('/:id/details', async (req, res) => {
+router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
 		res.status(200).json(product);
@@ -41,9 +40,9 @@ router.get('/:id/details', async (req, res) => {
 
 router.put('/:id/edit', isAdmin, async (req, res) => {
 	const { id } = req.params;
-	const { price, description } = req.body;
+	const { productPrice, productDescription } = req.body;
 	try {
-		await Product.findByIdAndUpdate(id, { price, description });
+		await Product.findByIdAndUpdate(id, { productPrice, productDescription });
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
 		});
