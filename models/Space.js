@@ -1,30 +1,29 @@
 const mongoose = require('mongoose');
 
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const spaceSchema = new Schema(
 	{
-		spaceType: String,
-		imageUrlspace: String,
-		services: [
-			{
-				product: {
-					type: Schema.Types.ObjectId,
-				},
-				amount: {
-					type: Number,
-					default: 1,
-				},
-			},
-		],
-		price: Number,
-		// owner: { type: Schema.Types.ObjectId, ref: "User" },
+		spaceName: { type: String, required: true },
+		spaceType: {
+			type: String,
+			enum: ['Desk', 'Room'],
+			required: [true, 'SpaceType is required.'],
+		},
+		imgUrl: {
+			type: [String],
+			required: [true, 'Image is required.'],
+		},
+		daily: { type: Number, required: true },
+		weekly: { type: Number, required: true },
+		monthly: { type: Number, required: true },
+		city: { type: String, required: true },
 	},
 	{
 		timestamps: true,
 	}
 );
 
-const Space = model('Space', spaceSchema);
+const Space = mongoose.model('Space', spaceSchema);
 
 module.exports = Space;

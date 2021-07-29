@@ -1,35 +1,34 @@
 const mongoose = require('mongoose');
 
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 const reservationSchema = new Schema(
 	{
-		coworking: {
+		space: {
 			type: Schema.Types.ObjectId,
-			ref: 'Coworking',
+			ref: 'Space',
 		},
-		products: [
-			{
-				product: {
-					type: Schema.Types.ObjectId,
-					ref: 'Product',
-				},
-				amount: {
-					type: Number,
-					default: 1,
-				},
-			},
-		],
+		cart: {
+			type: [Schema.Types.ObjectId],
+			ref: 'Product',
+		},
+		prices: [Number],
+		totalAmount: Number,
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
+		// status: {
+		// 	type: String,
+		// 	enum: ['confirmed', 'closed'],
+		// 	default: 'confirmed',
+		// },
 	},
 	{
 		timestamps: true,
 	}
 );
 
-const Reservation = model('Reservation', reservationSchema);
+const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;

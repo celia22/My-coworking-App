@@ -8,18 +8,25 @@ const checkIfLoggedIn = (req, res, next) => {
 	}
 };
 
-const checkUsernameAndPasswordNotEmpty = (req, res, next) => {
-	const { username, password } = req.body;
+const checkEmailAndPasswordNotEmpty = (req, res, next) => {
+	const { email, password } = req.body;
 
-	if (username !== '' && password !== '') {
+	if (email !== '' && password !== '') {
 		res.locals.auth = req.body;
 		next();
 	} else {
-		next(createError(422));
+		next(createError());
+	}
+};
+
+const isAdmin = (req, res, next) => {
+	if (req.session.currentUser.role === 'admin') {
+		return next();
 	}
 };
 
 module.exports = {
 	checkIfLoggedIn,
-	checkUsernameAndPasswordNotEmpty,
+	checkEmailAndPasswordNotEmpty,
+	isAdmin,
 };

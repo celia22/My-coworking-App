@@ -1,91 +1,68 @@
 const express = require('express');
-const mongoose = require('mongoose');
 
 const router = express.Router();
+const { checkIfLoggedIn } = require('../middlewares');
 
 const User = require('../models/User');
 
-// testeado
-// router.post('/new', (req, res) => {
-// 	const { username, imageUrluser, city, owner } = req.body;
-// 	User.create({
-// 		firstName: req.body.firstName,
-// 		lastName: req.body.lastName,
-// 		username: req.body.username,
-// 		city: req.body.city,
-// 		password: req.body.password,
-// 		role: req.body.role,
-// 		//owner: req.user._id, // <== !!!
-// 	})
-// 		.then(response => {
-// 			res.json(response);
-// 		})
-// 		.catch(err => {
-// 			res.json(err);
-// 		});
-// });
-
-// testeado OK, pero no creo que haga falta
-router.get('/all', (req, res) => {
-	User.find()
-		.then(allItems => {
-			res.json(allItems);
-		})
-		.catch(err => {
-			res.json(err);
-		});
+router.get('/main', checkIfLoggedIn, async (req, res) => {
+	try {
+		const dbUser = await User.findById(req.session.currentUser.id);
+		res.json({ dbUser });
+	} catch (err) {
+		res.json(err);
+	}
 });
 
-// testeado OK
-router.get('/:id', (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
+router.get('/menu', checkIfLoggedIn, async (req, res) => {
+	try {
+		const dbUser = await User.findById(req.session.currentUser.id);
+		res.json({ dbUser });
+	} catch (err) {
+		res.json(err);
 	}
-
-	User.findById(req.params.id)
-		.then(item => {
-			res.status(200).json(item);
-		})
-		.catch(error => {
-			res.json(error);
-		});
 });
 
-//testeado OK
-router.put('/:id', (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
+router.get('/all', async (req, res) => {
+	try {
+		const user = await User.find();
+		res.json(user);
+	} catch (err) {
+		res.json(err);
 	}
-
-	User.findByIdAndUpdate(req.params.id, req.body)
-		.then(() => {
-			res.json({
-				message: `User with ${req.params.id} is updated successfully.`,
-			});
-		})
-		.catch(error => {
-			res.json(error);
-		});
 });
 
-// tested OK
-router.delete('/:id', (req, res) => {
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		res.status(400).json({ message: 'Specified id is not valid' });
-		return;
+router.get('/:id/details', async (req, res) => {
+	const { id } = req.params;
+	try {
+		const user = await User.findById(id);
+		res.status(200).json(user);
+	} catch (err) {
+		res.json(err);
 	}
+});
 
-	User.findByIdAndRemove(req.params.id)
-		.then(() => {
-			res.json({
-				message: `user with ${req.params.id} is removed successfully.`,
-			});
-		})
-		.catch(error => {
-			res.json(error);
+router.put('/:id/update-profile', async (req, res) => {
+	const { id } = req.params;
+	const { email, password, firstName, lastName, city } = req.body;
+	try {
+		await User.findByIdAndUpdate(id, { email, password, firstName, lastName, city }, { new: true });
+		res.json({
+			message: `User with ${id} is updated successfully.`,
 		});
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+router.delete('/:id/delete', async (req, res) => {
+	const { id } = req.params;
+	try {
+		await User.findByIdAndRemove(id, req.body);
+		res.json({ message: `User with ${id} is removed successfully.` });
+	} catch (err) {
+		res.json(err);
+	}
 });
 
 module.exports = router;
