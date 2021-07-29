@@ -30,7 +30,9 @@ router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
 	try {
 		await User.findById(id);
-		const reservation = await Reservation.find({ user: id }).populate('product');
+		const reservation = await Reservation.find({ user: id })
+			.populate('cart')
+			.populate({ path: 'space', select: 'spaceName' });
 		res.json(reservation);
 	} catch (err) {
 		res.json(err);
@@ -39,7 +41,7 @@ router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
 
 router.get('/all', isAdmin, async (req, res) => {
 	try {
-		const reservation = await Reservation.find().populate('product');
+		const reservation = await Reservation.find().populate('cart', 'space');
 		res.json(reservation);
 	} catch (err) {
 		res.json(err);

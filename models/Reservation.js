@@ -18,11 +18,6 @@ const reservationSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		// status: {
-		// 	type: String,
-		// 	enum: ['confirmed', 'closed'],
-		// 	default: 'confirmed',
-		// },
 	},
 	{
 		timestamps: true,

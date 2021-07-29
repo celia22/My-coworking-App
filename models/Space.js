@@ -12,7 +12,7 @@ const spaceSchema = new Schema(
 		},
 		imgUrl: {
 			type: [String],
-			required: [true, 'Image is required.'],
+			// required: [true, 'Image is required.'],
 		},
 		daily: { type: Number, required: true },
 		weekly: { type: Number, required: true },
