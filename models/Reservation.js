@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const reservationSchema = new Schema(
 	{
-		space: [
+		spaces: [
 			{
 				type: Schema.Types.ObjectId,
 				ref: 'Space',
@@ -26,9 +26,17 @@ const reservationSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
+		totalAmount: {
+			type: Number,
+		},
+		// status: {
+		// 	type: String,
+		// 	enum: ['confirmed', 'closed'],
+		// 	default: 'confirmed',
+		// },
 	},
 	{
-		timestamps: true,
+		timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 	}
 );
 
