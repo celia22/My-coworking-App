@@ -2,7 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
-const { isAdmin } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
@@ -29,7 +28,7 @@ router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const currentUser = await User.findById(_id);
 		if (currentUser.role === 'admin') {
-			const reservation = await Reservation.find({ user: _id }).populate('products').populate('space');
+			const reservation = await Reservation.find().populate('products').populate('space');
 			res.json(reservation);
 		} else {
 			const reservation = await Reservation.find({ user: _id }).populate('products').populate('space');
