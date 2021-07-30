@@ -2,17 +2,15 @@ const express = require('express');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
-const { isAdmin } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
-const Product = require('../models/Product');
 
-router.post('/:id/new', checkIfLoggedIn, async (req, res) => {
-	const { id } = req.params;
+router.post('/new', checkIfLoggedIn, async (req, res) => {
+	const { _id } = req.session.currentUser;
 	const { space, cart, prices, totalAmount } = req.body;
 	try {
-		const dbUser = await User.findById(id);
+		const dbUser = await User.findById(_id);
 		const newReservation = await Reservation.create({
 			user: dbUser,
 			space,
@@ -26,27 +24,30 @@ router.post('/:id/new', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/:id/all', checkIfLoggedIn, async (req, res) => {
-	const { id } = req.params;
+router.get('/all', checkIfLoggedIn, async (req, res) => {
+	const { _id } = req.session.currentUser;
 	try {
-		await User.findById(id);
-		const reservation = await Reservation.find({ user: id })
-			.populate('cart')
-			.populate({ path: 'space', select: 'spaceName' });
-		res.json(reservation);
+		const currentUser = await User.findById(_id);
+		if (currentUser.role === 'admin') {
+			const reservation = await Reservation.find({ user: _id }).populate('cart').populate('space');
+			res.json(reservation);
+		} else {
+			const reservation = await Reservation.find().populate('products').populate('space');
+			res.json(reservation);
+		}
 	} catch (err) {
 		res.json(err);
 	}
 });
 
-router.get('/all', isAdmin, async (req, res) => {
-	try {
-		const reservation = await Reservation.find().populate('cart', 'space');
-		res.json(reservation);
-	} catch (err) {
-		res.json(err);
-	}
-});
+// router.get('/all', isAdmin, async (req, res) => {
+// 	try {
+// 		const reservation = await Reservation.find().populate('cart', 'space');
+// 		res.json(reservation);
+// 	} catch (err) {
+// 		res.json(err);
+// 	}
+// });
 
 router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;
