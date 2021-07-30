@@ -2,21 +2,22 @@ const express = require('express');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
-const { isAdmin } = require('../middlewares');
+// const { isAdmin } = require('../middlewares');
 
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
-const Product = require('../models/Product');
+// const Product = require('../models/Product');
 
 router.post('/new', checkIfLoggedIn, async (req, res) => {
 	const { _id } = req.session.currentUser;
-	const { space, products } = req.body;
+	const { spaces, products, totalAmount } = req.body;
 	try {
 		// const dbUser = await User.findById(_id);
 		const newReservation = await Reservation.create({
 			user: _id,
-			space, // array de Ids
-			products, // array de Ids
+			spaces,
+			products,
+			totalAmount,
 		});
 		res.status(200).json(newReservation);
 	} catch (err) {
@@ -29,10 +30,10 @@ router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const currentUser = await User.findById(_id);
 		if (currentUser.role === 'admin') {
-			const reservation = await Reservation.find({ user: _id }).populate('products').populate('space');
+			const reservation = await Reservation.find().populate('products').populate('spaces');
 			res.json(reservation);
 		} else {
-			const reservation = await Reservation.find({ user: _id }).populate('products').populate('space');
+			const reservation = await Reservation.find({ user: _id }).populate('products').populate('spaces');
 			res.json(reservation);
 		}
 	} catch (err) {
