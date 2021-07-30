@@ -2,10 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
-<<<<<<< HEAD
-=======
 // const { isAdmin } = require('../middlewares');
->>>>>>> 1863e312a3aa59a4461cde73edbfee4c5386891e
 
 const Reservation = require('../models/Reservation');
 const User = require('../models/User');
