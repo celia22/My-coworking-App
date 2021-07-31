@@ -8,14 +8,12 @@ const User = require('../models/User');
 
 router.post('/new', checkIfLoggedIn, async (req, res) => {
 	const { _id } = req.session.currentUser;
-	const { space, cart, prices, totalAmount } = req.body;
+	const { spaces, products, totalAmount } = req.body;
 	try {
-		const dbUser = await User.findById(_id);
 		const newReservation = await Reservation.create({
-			user: dbUser,
-			space,
-			cart,
-			prices,
+			user: _id,
+			spaces,
+			products,
 			totalAmount,
 		});
 		res.status(200).json(newReservation);
@@ -29,25 +27,16 @@ router.get('/all', checkIfLoggedIn, async (req, res) => {
 	try {
 		const currentUser = await User.findById(_id);
 		if (currentUser.role === 'admin') {
-			const reservation = await Reservation.find({ user: _id }).populate('cart').populate('space');
+			const reservation = await Reservation.find().populate('products').populate('spaces');
 			res.json(reservation);
 		} else {
-			const reservation = await Reservation.find().populate('products').populate('space');
+			const reservation = await Reservation.find({ user: _id }).populate('products').populate('spaces');
 			res.json(reservation);
 		}
 	} catch (err) {
 		res.json(err);
 	}
 });
-
-// router.get('/all', isAdmin, async (req, res) => {
-// 	try {
-// 		const reservation = await Reservation.find().populate('cart', 'space');
-// 		res.json(reservation);
-// 	} catch (err) {
-// 		res.json(err);
-// 	}
-// });
 
 router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	const { id } = req.params;

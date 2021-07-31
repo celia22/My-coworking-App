@@ -31,6 +31,7 @@ async function setupApp() {
 	app.use(express.urlencoded({ extended: false }));
 	app.use(cookieParser());
 	app.use(express.static(path.join(__dirname, 'public')));
+	app.set('trust proxy', 1);
 
 	app.use(
 		session({
@@ -43,6 +44,8 @@ async function setupApp() {
 			saveUninitialized: true,
 			cookie: {
 				maxAge: 24 * 60 * 60 * 1000,
+				sameSite: process.env.COOKIES_SAMESITE === 'true' ? 'lax' : 'none',
+				secure: process.env.COOKIES_SAMESITE !== 'true',
 			},
 		})
 	);
