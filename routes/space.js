@@ -62,7 +62,7 @@ router.post('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.put('/:id/edit', isAdmin, isAdmin, async (req, res) => {
+router.put('/:id/edit', isAdmin, async (req, res) => {
 	const { id } = req.params;
 	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 	try {
@@ -72,6 +72,20 @@ router.put('/:id/edit', isAdmin, isAdmin, async (req, res) => {
 		});
 	} catch (err) {
 		res.json(err);
+	}
+});
+
+router.put('/favourites/:id', checkIfLoggedIn, async (req, res) => {
+	const { _id } = req.session.currentUser;
+	const { id } = req.params;
+	try {
+		const dbUser = await User.findById(_id);
+		const list = dbUser.favSpaces.indexOf(id);
+		dbUser.favSpaces.splice(list, 1);
+		dbUser.save();
+		res.json({ notFavSpace: id });
+	} catch (error) {
+		res.json(error);
 	}
 });
 
