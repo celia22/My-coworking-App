@@ -14,10 +14,20 @@ router.get('/main', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/menu', checkIfLoggedIn, async (req, res) => {
+// router.get('/menu', checkIfLoggedIn, async (req, res) => {
+// 	try {
+// 		const dbUser = await User.findById(req.session.currentUser.id);
+// 		res.json({ dbUser });
+// 	} catch (err) {
+// 		res.json(err);
+// 	}
+// });
+
+router.get('/favourites', checkIfLoggedIn, async (req, res) => {
+	const { _id } = req.session.currentUser;
 	try {
-		const dbUser = await User.findById(req.session.currentUser.id);
-		res.json({ dbUser });
+		const dbUser = await User.findById(_id).populate('favSpaces');
+		res.json(dbUser.favSpaces);
 	} catch (err) {
 		res.json(err);
 	}

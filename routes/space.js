@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 const { checkIfLoggedIn } = require('../middlewares');
 const { isAdmin } = require('../middlewares');
-const uploader = require('../configs/cloudinary.config');
 
 const Space = require('../models/Space');
+const User = require('../models/User');
 
 // tested OK
 router.post('/new', isAdmin, async (req, res) => {
@@ -45,18 +45,30 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.put('/:id/edit', isAdmin, uploader.array('imgUrl'), isAdmin, async (req, res, next) => {
+router.post('/:id/details', checkIfLoggedIn, async (req, res) => {
+	const { _id } = req.session.currentUser;
+	const { id } = req.params;
+	try {
+		const dbUser = await User.findById(_id);
+		if (dbUser.favSpaces.includes(id)) {
+			res.json('This space is already on the list');
+		} else {
+			dbUser.favSpaces.push(id);
+			dbUser.save();
+			dbUser.json({ favSpaces: id });
+		}
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+router.put('/:id/edit', isAdmin, isAdmin, async (req, res) => {
 	const { id } = req.params;
 	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 	try {
 		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imgUrl, daily, weekly, monthly, city });
-		if (!req.file) {
-			next(new Error('No file uploaded!'));
-			return;
-		}
 		res.json({
 			message: `Space with ${req.params.id} is updated successfully.`,
-			secure_url: req.file.path,
 		});
 	} catch (err) {
 		res.json(err);

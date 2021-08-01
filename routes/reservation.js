@@ -48,28 +48,4 @@ router.get('/:id/details', checkIfLoggedIn, async (req, res) => {
 	}
 });
 
-router.put('/:id/edit', checkIfLoggedIn, async (req, res) => {
-	const { id } = req.params;
-	const { space, cart, prices, user, status, totalAmount } = req.body;
-	try {
-		await Reservation.findByIdAndUpdate(id, { space, cart, prices, user, status, totalAmount });
-		res.json({
-			message: `Space with ${req.params.id} is updated successfully.`,
-		});
-	} catch (err) {
-		res.json(err);
-	}
-});
-
-router.delete('/:id/delete', checkIfLoggedIn, async (req, res) => {
-	try {
-		await Reservation.findByIdAndRemove(req.params.id, req.body);
-		res.json({
-			message: `Space with ${req.params.id} is removed successfully.`,
-		});
-	} catch (err) {
-		res.json(err);
-	}
-});
-
 module.exports = router;

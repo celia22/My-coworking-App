@@ -21,6 +21,7 @@ const userSchema = new Schema(
 			enum: ['admin', 'customer'],
 			default: 'customer',
 		},
+		favSpaces: [{ type: Schema.Types.ObjectId, ref: 'Space' }],
 	},
 	{
 		timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },

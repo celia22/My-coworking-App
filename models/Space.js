@@ -18,7 +18,12 @@ const spaceSchema = new Schema(
 		weekly: { type: Number, required: true },
 		monthly: { type: Number, required: true },
 		city: { type: String, required: true },
+		quantity: {
+			type: Number,
+			default: 1,
+		},
 	},
+
 	{
 		timestamps: true,
 	}
