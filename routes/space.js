@@ -55,7 +55,8 @@ router.post('/:id/details', checkIfLoggedIn, async (req, res) => {
 		} else {
 			dbUser.favSpaces.push(id);
 			dbUser.save();
-			dbUser.json({ favSpaces: id });
+			req.session.currentUser = dbUser;
+			res.json({ favSpaces: id });
 		}
 	} catch (err) {
 		res.json(err);
@@ -83,6 +84,7 @@ router.put('/favourites/:id', checkIfLoggedIn, async (req, res) => {
 		const list = dbUser.favSpaces.indexOf(id);
 		dbUser.favSpaces.splice(list, 1);
 		dbUser.save();
+		req.session.currentUser = dbUser;
 		res.json({ notFavSpace: id });
 	} catch (error) {
 		res.json(error);
