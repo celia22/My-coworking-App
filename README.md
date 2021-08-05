@@ -1,4 +1,3 @@
-# Frontend-My-coworking-app
 
 # Project's name: My-coworking App
 
