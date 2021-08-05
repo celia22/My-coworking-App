@@ -84,35 +84,59 @@ My-cowoking App is an app that will help you find and compare the bests coworkin
 | Sign up    | POST   | /signup                        | Sign up a user with an account                          | { mail, password }                                   |              |
 | Log in          | POST   | /login                        | Log in the user                                  | { mail, password, profile }                      |            |
 | Logout   | GET    | /logout                            | Logout a user                       |        
+
+### Auth
+| Method | Path | Description | Body | |
+| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Signup | POST | /signup | Create user | {firstName, lastName, email, password, city } 
+| Login | POST | /login | Login to app | {email, password}    
+| Logout | POST | /logout | Logout app | {} 
+
 ### Users
 | Method | Path | Description | Body | |
 | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
-| User main page | GET | /user/profile | User main page | {spaces, products } 
-| Edit user | GET | /user/profile/edit | Edit user | {firstName, lastName, city}    
-| Edit user | PUT | /user/profile/edit | Edit user | {firstName, lastName, city} 
-| See details of a specific space | GET | /spaces/:id/detail | See spaces details | {products, calendar, city}
-| My reservations | GET | /reservations | See current and past reservations
-| Make reservation | POST | /reservations | Add product to cart | {spaceName, products, user} 
-| Add to favourite | POST | /space/:id/details | Add space to favourites
-| Delete user account | DELETE | /user/delete | Delete user 
+| User main page | GET | /user/main | 
+| User favourite spaces | GET | /user/favourites |  
+| Edit user | PUT | /user/:id/update-profile | Edit user | {firstName, lastName, email, password, city }    
+| Delete user | DELETE | /user/:id/delete | Delete user |    
+
+
+### Reservations
+| Method | Path | Description | Body | |
+| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| My reservations | GET | reservations/:id/details | See my reservations
+| All reservations | GET | reservations/:id/details | See all reservations
+| Make reservation | POST | /new| Add product to cart | {spaceName, products, user} 
+
+
+### Admin
+| Method | Path | Description | Body | |
+| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Admin Main Page | GET | /admin | admin menu
+
+### File Upload
+| Method | Path | Description | Body | |
+| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Upload pictures | POST | /upload | {imageUrl}
 
 ### Space
 | Method | Path | Description | Body | |
 | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
-| Add space | GET | /space/add | See add space form 
-| Add space | POST | /space/add | Send space data to database | {spaceName, products, city, image } 
-| Space main page | GET | /space/profile | space main page
-| Edit space | GET | /space/profile/edit | Edit space   
-| Edit space | PUT | /space/profile/edit | Edit space | {spaceName, spaceType, city} 
-| My products | GET | /space/products | See space products
-| My space reservations | GET | /space/reservations | See current reservations
-| Add product | GET | /space/add-product | Add product 
-| Add product | POST | /space/add-product | Add product | {description, price, image} 
-| Edit product | GET | /space/:id/edit | Edit product 
-| Edit product | PUT | /space/:id/edit | Edit product | {description, price, image} 
-| Delete product | POST | /space/:id/delete | Delete product 
-| Delete space account | DELETE | /space/delete | Delete space 
-| Log out | POST | /logout | Log out of the app 
+| Add space | POST | /space/new | Send space data to database | {spaceName, spaceType, dialy, weekly, monthly, city, image } 
+| Space get all | GET | /space/all | Get all spaces
+| Space details | GET | /space/:id/details | Get specifig space
+| Edit space | PUT | /space/:id/edit | Edit space | {spaceName, spaceType, dialy, weekly, monthly, city, image } 
+| Edit favourite space | POST | /space/:id/edit | Edit space, delete from user favourites | 
+| Delete space | DELETE | /space/:id/delete | Delete space |
+
+
+### Products
+| Method | Path | Description | Body | |
+| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Add product | POST | /product/new | Add product | {productPrice, productDescription}
+| Get all products | GET | /product/all | See all products | 
+| Edit product | PUT | /product/:id/edit | Edit product | {productPrice, productDescription}
+| Delete product | DELETE | /product/:id/delete | Delete product 
 
 ​
 ​
