@@ -28,6 +28,7 @@ My-cowoking App is an app that will help you find and compare the bests coworkin
 
 **Edit space** -As a owner I want to edit my space and products.
 
+
 ## BACKLOG
 
 **Calendar with available spots (live)** - As a costumer and as a owner, I want to see the available spots for each day.
@@ -38,43 +39,7 @@ My-cowoking App is an app that will help you find and compare the bests coworkin
 
 **Geo-location of business** - As a business I want to be able to locate my place on a map, as a costumer I want to see business near me.
 
-## ROUTES
-​
-# Frontend-My-coworking-app
 
-# Project's name: My-coworking App
-
-## Description
-​
-My-cowoking App is an app that will help you find and compare the bests coworkings in your city.
-​
-## USER STORIES (MVP)
-​
-**404** - As a user I want to see a nice 404 page when I go to a page that doesn’t exist so that I know it was my fault.
-​
-**Landing page** - As a user I want to be able to access the landing page so that I see what the app is about and login and signup.
-​
-**Sign up** - As a user I want to be able to create an account to use the app and save my tasks.
-​
-**Login** - As a user I want to be able to log in on the webpage.
-​
-**Logout** - As a user I want to be able to log out from the webpage.
-​
-**Profile** - As a user I want to be able to see my profile and edit it.
-​
-**Reservations** - As a user I want to be able to do a reservation and check for available spots.
-​
-**Add spaces** - As a owner I want to add a coworking space.
-​
-**Add products** - As a owner I want to add extra commodities to my coworking space.
-​
-**Edit space** -As a owner I want to edit my space and products.
-
-## BACKLOG
-**Calendar with available spots (live)** - As a costumer and as a owner, I want to see the available spots for each day.
-**Fake payment** - As a costumer I want to pay & as a business I want to receive money.
-**Mailing** - As a user I want to receive an email when I make a reservation.
-**Geo-location of business** - As a business I want to be able to locate my place on a map, as a costumer I want to see business near me.
 
 ## ROUTES
 ​
