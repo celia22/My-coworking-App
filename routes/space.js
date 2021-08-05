@@ -7,7 +7,6 @@ const { isAdmin } = require('../middlewares');
 const Space = require('../models/Space');
 const User = require('../models/User');
 
-// tested OK
 router.post('/new', isAdmin, async (req, res) => {
 	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 
@@ -21,7 +20,7 @@ router.post('/new', isAdmin, async (req, res) => {
 			monthly,
 			city,
 		});
-		res.status(201).json(newSpace);
+		res.status(200).json(newSpace);
 	} catch (err) {
 		res.json(err);
 	}

@@ -16,12 +16,6 @@ const reservationSchema = new Schema(
 				ref: 'Product',
 			},
 		],
-		// cart: {
-		// 	type: [Schema.Types.ObjectId],
-		// 	ref: 'Product',
-		// },
-		// prices: [Number],
-		// totalAmount: Number,
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
@@ -29,11 +23,6 @@ const reservationSchema = new Schema(
 		totalAmount: {
 			type: Number,
 		},
-		// status: {
-		// 	type: String,
-		// 	enum: ['confirmed', 'closed'],
-		// 	default: 'confirmed',
-		// },
 	},
 	{
 		timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
