@@ -1,4 +1,3 @@
-
 # Project's name: My-coworking App
 
 ## Description
@@ -22,12 +21,13 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 
 **Reservations** - As a user I want to be able to do a reservation and add extra products.
 
+**Favourites** - As a user I want to be able to do add spaces to my favourite list.
+
 **Add spaces** - As a owner I want to add a coworking space.
 
 **Add products** - As a owner I want to add extra commodities to my coworking space.
 
 **Edit space** -As a owner I want to edit my space and products.
-
 
 ## BACKLOG
 
@@ -40,7 +40,6 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 **Geo-location of business** - As a business I want to be able to locate my place on a map, as a costumer I want to see business near me.
 
 
-
 ## ROUTES
 ​
 | Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
@@ -51,15 +50,15 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 | Logout   | GET    | /logout                            | Logout a user                       |        
 
 ### Auth
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | Signup | POST | /signup | Create user | {firstName, lastName, email, password, city } 
 | Login | POST | /login | Login to app | {email, password}    
-| Logout | POST | /logout | Logout app | {} 
+| Logout | POST | /logout | Logout app | 
 
 ### Users
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | User main page | GET | /user/main | 
 | User favourite spaces | GET | /user/favourites |  
 | Edit user | PUT | /user/:id/update-profile | Edit user | {firstName, lastName, email, password, city }    
@@ -67,26 +66,26 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 
 
 ### Reservations
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | My reservations | GET | reservations/:id/details | See my reservations
-| All reservations | GET | reservations/:id/details | See all reservations
+| All reservations | GET | reservations/all | See all reservations
 | Make reservation | POST | /new| Add product to cart | {spaceName, products, user} 
 
 
 ### Admin
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | Admin Main Page | GET | /admin | admin menu
 
 ### File Upload
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
-| Upload pictures | POST | /upload | {imageUrl}
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Upload pictures | POST | /upload | Upload files | {imageUrl}
 
 ### Space
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | Add space | POST | /space/new | Send space data to database | {spaceName, spaceType, dialy, weekly, monthly, city, image } 
 | Space get all | GET | /space/all | Get all spaces
 | Space details | GET | /space/:id/details | Get specifig space
@@ -96,8 +95,8 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 
 
 ### Products
-| Method | Path | Description | Body | |
-| ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
+| Name            | Method | Endpoint                      | Description                                      | Body                                  |        |
+| --------------- | ------ | ----------------------------- | ------------------------------------------------ | ------------------------------------- | --------------- |
 | Add product | POST | /product/new | Add product | {productPrice, productDescription}
 | Get all products | GET | /product/all | See all products | 
 | Edit product | PUT | /product/:id/edit | Edit product | {productPrice, productDescription}
@@ -109,36 +108,36 @@ My Coworking is an app designed to help coworking’s owners to manage their pro
 ## COMPONENTS
 ​
 **AUTH**
-Auth-service
-Login
-Signup
-Protected-routes
-​
+Auth-service.
+Login.
+Signup.
+Protected-routes.
+
 **NAVBAR**
-Home
-Cart
-​
+Home.
+Cart.
+
 **SPACE**
-Add
-Edit
-Details
-List
-​
+Add.
+Edit.
+Details.
+List.
+
 **PRODUCTS**
-Add
-List
-​
+Add.
+List.
+
 **USER**
-Edit account
-Manage Space
-​
+Edit account.
+Manage Space.
+
 **RESERVATIONS**
-Add
-Details
-List
-​
+Add.
+Details.
+List.
+
 **CART**
-Status
+Status.
 
 
 ## MODELS
@@ -426,17 +425,19 @@ RESERVATION MODEL
 - https://github.com/celia22/My-coworking-App-Backend
 ​
 ### Deploy links
-​
-- https://my-coworking.netlify.app/()
-​
+
+- https://my-coworking.netlify.app/
+
 ### Project kanban
-- https://github.com/celia22/Frontend-My-coworking-app/projects/1()
-​
+- https://github.com/celia22/Frontend-My-coworking-app/projects/1
+
 ### Wireframes 
-​
-- https://excalidraw.com/#json=5270398597857280,N3-hW5vzP1Y15AptqvefJQ()
-​
+
+- https://excalidraw.com/#json=5270398597857280,N3-hW5vzP1Y15AptqvefJQ
+
 ### Slides
-​
-- https://docs.google.com/presentation/d/1QAfQEa4cdZdrQ9zNPuDmi0zvgMYkVBeTzYZ59GX_4ic/edit#slide=id.gc6f80d1ff_0_5()
+
+- https://docs.google.com/presentation/d/1QAfQEa4cdZdrQ9zNPuDmi0zvgMYkVBeTzYZ59GX_4ic/edit#slide=id.gc6f80d1ff_0_5
+
+
 
