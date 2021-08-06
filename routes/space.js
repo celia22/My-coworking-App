@@ -50,7 +50,7 @@ router.post('/:id/details', checkIfLoggedIn, async (req, res) => {
 	try {
 		const dbUser = await User.findById(_id);
 		if (dbUser.favSpaces.includes(id)) {
-			res.json('This space is already on the list');
+			res.status(401).json('This space is already on the list');
 		} else {
 			dbUser.favSpaces.push(id);
 			dbUser.save();
@@ -66,9 +66,17 @@ router.put('/:id/edit', isAdmin, async (req, res) => {
 	const { id } = req.params;
 	const { spaceName, spaceType, imgUrl, daily, weekly, monthly, city } = req.body;
 	try {
-		await Space.findByIdAndUpdate(id, { spaceName, spaceType, imgUrl, daily, weekly, monthly, city });
+		const updateSpace = await Space.findByIdAndUpdate(id, {
+			spaceName,
+			spaceType,
+			imgUrl,
+			daily,
+			weekly,
+			monthly,
+			city,
+		});
 		res.json({
-			message: `Space with ${req.params.id} is updated successfully.`,
+			updateSpace,
 		});
 	} catch (err) {
 		res.json(err);
@@ -94,7 +102,7 @@ router.delete('/:id/delete', isAdmin, async (req, res) => {
 	const { id } = req.params;
 	try {
 		await Space.findByIdAndRemove(id, req.body);
-		res.json({
+		res.status(200).json({
 			message: `Space with ${req.params.id} is removed successfully.`,
 		});
 	} catch (err) {

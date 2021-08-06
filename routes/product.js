@@ -42,10 +42,8 @@ router.put('/:id/edit', isAdmin, async (req, res) => {
 	const { id } = req.params;
 	const { productPrice, productDescription } = req.body;
 	try {
-		await Product.findByIdAndUpdate(id, { productPrice, productDescription });
-		res.json({
-			message: `Space with ${req.params.id} is updated successfully.`,
-		});
+		const updatedProduct = await Product.findByIdAndUpdate(id, { productPrice, productDescription });
+		res.json({ updatedProduct });
 	} catch (err) {
 		res.status(500).json(err);
 	}
@@ -54,7 +52,7 @@ router.put('/:id/edit', isAdmin, async (req, res) => {
 router.delete('/:id/delete', isAdmin, async (req, res) => {
 	try {
 		await Product.findByIdAndRemove(req.params.id, req.body);
-		res.json({
+		res.status(200).json({
 			message: `Space with ${req.params.id} is removed successfully.`,
 		});
 	} catch (err) {

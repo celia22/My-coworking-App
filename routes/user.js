@@ -47,9 +47,9 @@ router.put('/:id/update-profile', async (req, res) => {
 	const { id } = req.params;
 	const { email, password, firstName, lastName, city } = req.body;
 	try {
-		await User.findByIdAndUpdate(id, { email, password, firstName, lastName, city }, { new: true });
+		const updatedUser = await User.findByIdAndUpdate(id, { email, password, firstName, lastName, city }, { new: true });
 		res.json({
-			message: `User with ${id} is updated successfully.`,
+			updatedUser,
 		});
 	} catch (err) {
 		res.json(err);
@@ -60,7 +60,7 @@ router.delete('/:id/delete', async (req, res) => {
 	const { id } = req.params;
 	try {
 		await User.findByIdAndRemove(id, req.body);
-		res.json({ message: `User with ${id} is removed successfully.` });
+		res.status(200).json({ message: `User with ${id} is removed successfully.` });
 	} catch (err) {
 		res.json(err);
 	}
